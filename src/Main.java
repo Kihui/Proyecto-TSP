@@ -3,43 +3,26 @@ import gaframeworkgui.*;
 import gaframework.*;
 import org.moeaframework.problem.tsplib.*;
 import java.io.File;
+import java.io.IOException;
+
 public class Main{
-    // static BinInteger cod =  new BinInteger(10, problem.getDimension());
-
-
-    public static void encodeProblem(TSPInstance problem) throws Exception {
-        problem.addTour(new File("../tsp/ulysses16.opt.tour"));
-        DistanceTable dt = problem.getDistanceTable();
-
-        int[] nodos = dt.listNodes();
-        System.out.println("El más grande es: "+nodos[nodos.length-1]+
-                           " y el más pequeño es: "+nodos[0]);
-        try{
-            System.out.println("La distancia entre el más grande y el más pequeño"+
-                               "es: "+dt.getDistanceBetween(1,16));
-        } catch(Exception e){e.printStackTrace();}
-        for (Tour tour : problem.getTours()) {
-            System.out.println(tour.distance(problem));
-        }
-    	/*int [] phenotype = problem.getFixedEdges().listNodes();
-    	Genotype<Integer> gen =  new Genotype<>(genotype.length + 1);
-    	/* creamos el ciclo
-    	gen.setGene(0, genotype[0]);
-    	gen.setGene(genotype.length, genotype[0]);
-    	/* omitimos el primero y el último
-    	for (int i = 1; i < genotype.length; i++) {
-            gen.setGene(i, genotype[i]);
-    	}
-    	return gen;*/
-    }
-
+    public static TSPInstance problema = null;
     public static void main(String[] argumenta){
-        TSPInstance problem = null;
-
+        if(argumenta.length != 1){
+            System.err.println("La vida es ruda");
+            return;
+        }
         try{
-            problem = new TSPInstance(new File("../tsp/ulysses16.tsp"));
-            encodeProblem(problem);
-        } catch(Exception e){e.printStackTrace();}
+            File tsp = new File(argumenta[0]);
+            problema = new TSPInstance(tsp);
+        } catch(IOException ioe){
+            System.err.println("Hubo un problema al abrir el archivo TSP");
+            ioe.printStackTrace();
+        }
+        if(problema == null)
+            return;
+
+
         /*
 	BinInteger cod = new BinInteger(10,1);
 	OnePointCrossover<Boolean> opcruza = new OnePointCrossover<>(3, 0.75);

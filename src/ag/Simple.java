@@ -1,19 +1,20 @@
 
 import gaframework.*;
 import java.util.*;
+import org.moeaframework.problem.tsplib.*;
 
 public class Simple<G,P> implements GeneticAlgorithm<G,P> {
-
     private Breeder<G,P> breeder;
     private CrossoverOp<G> crossoverOp;
     private MutationOp<G> mutationOp;
     private SelectionOp<G,P> selectionOp;
     private TerminationCondition<G,P> termination;
     private ObjectiveFunction<G,P> objFun;
+    private final LinkedList<P> tsp;
     private final int popSize;
     private boolean cont;
-    
-    
+
+
     public Simple(Codification<G,P> cod,
 		  Corrector<G> cor,
 		  CrossoverOp<G> cro,
@@ -22,14 +23,16 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 		  FitnessFunction<P> fun,
 		  ObjectiveFunction<G,P> objFun,
 		  TerminationCondition<G,P> ter,
-		  int popSize){
+		  LinkedList<P> tsp,
+                  int popSize){
 	this.breeder = new Breeder<>(cod, cor, fun);
 	this.crossoverOp = cro;
 	this.mutationOp = muo;
 	this.selectionOp = seo;
 	this.termination = ter;
 	this.objFun = objFun;
-	this.popSize = popSize;
+	this.tsp = tsp;
+        this.popSize = popSize;
 	this.cont = true;
     }
 
@@ -56,7 +59,24 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 		out.sort();
 	    }
 	}
-	return out;	    
+	return out;
+    }
+
+    private Population<G,P> randomValidP(){
+        Population<G,P> p = new Population<G,P>(1);
+        Random r = new Random();
+        for(int i = 0; i < popSize; i++){
+            LinkedList<P> ciudades = (LinkedList<P>)tsp.clone(); //necesitaremos nuestro propio metodo jijiji
+            Phenotype<P> fenotipo = new Phenotype<>(ciudades.size());
+            fenotipo.setAllele(0,ciudades.remove());
+            for(int j = 1; j < fenotipo.size(); j++){
+                int index = r.ints(1,1,fenotipo.size()).findFirst().getAsInt();
+                fenotipo.setAllele(j,ciudades.remove(index));
+            }
+            Individual<G,P> nuevo = breeder.newIndividual(fenotipo);
+            p.addIndividual(nuevo);
+        }
+        return p;
     }
 
     public void run(){
