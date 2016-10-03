@@ -1,0 +1,26 @@
+<project name="Framework de Algoritmos Genéticos" default="build">
+
+  <target name="build">
+    <mkdir dir="build"/>
+    <javac srcdir="src"
+	   destdir="build"
+	   includeantruntime="false"
+	   classpath="lib/FrameworkAG.jar:lib/TSPLIB4J-0.2.jar">
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+  
+  <target name="clean">
+    <delete dir="build"/>
+    <delete dir="dist"/>
+    <delete dir="doc"/>
+  </target>
+  
+  <target name="dist" depends="build">
+    <mkdir dir="dist"/>
+    <jar destfile="dist/FrameworkAG.jar"
+	 basedir="build"
+	 />
+  </target>
+  
+</project>
