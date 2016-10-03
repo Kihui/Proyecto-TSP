@@ -8,7 +8,16 @@ public class Main{
 
 
     public static void encodeProblem(TSPInstance problem) throws Exception {
-        problem.addTour(new File("../tsp/pcb442.opt.tour"));
+        problem.addTour(new File("../tsp/ulysses16.opt.tour"));
+        DistanceTable dt = problem.getDistanceTable();
+
+        int[] nodos = dt.listNodes();
+        System.out.println("El más grande es: "+nodos[nodos.length-1]+
+                           " y el más pequeño es: "+nodos[0]);
+        try{
+            System.out.println("La distancia entre el más grande y el más pequeño"+
+                               "es: "+dt.getDistanceBetween(1,16));
+        } catch(Exception e){e.printStackTrace();}
         for (Tour tour : problem.getTours()) {
             System.out.println(tour.distance(problem));
         }
@@ -26,8 +35,9 @@ public class Main{
 
     public static void main(String[] argumenta){
         TSPInstance problem = null;
+
         try{
-            problem = new TSPInstance(new File("../tsp/pcb442.tsp"));
+            problem = new TSPInstance(new File("../tsp/ulysses16.tsp"));
             encodeProblem(problem);
         } catch(Exception e){e.printStackTrace();}
         /*
