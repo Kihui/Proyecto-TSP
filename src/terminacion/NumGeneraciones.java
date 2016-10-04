@@ -4,10 +4,10 @@ import gaframework.Population;
 /**
  * Clase para modelar la condición de terminación del Algoritmo Genetico
  * @author
- * 
+ *
  */
 
-public class NumGeneraciones implements TerminationCondition<Boolean, Integer>{
+public class NumGeneraciones implements TerminationCondition<Integer, Integer>{
     /** Atributos **/
     private int numGen;
 
@@ -16,7 +16,7 @@ public class NumGeneraciones implements TerminationCondition<Boolean, Integer>{
 	this.numGen =  numGen;
     }
     /** Comportamiento**/
-    public boolean conditionReached(Population<Boolean,Integer> p){
+    public boolean conditionReached(Population<Integer,Integer> p){
 	return p.getGeneration() >= numGen;
     }
 }

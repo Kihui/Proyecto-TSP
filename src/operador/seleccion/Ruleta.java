@@ -16,9 +16,9 @@ public class Ruleta<G,P> implements SelectionOp<G,P> {
 
     public List<Individual<G,P>> select(Population<G,P> p){
 	double[] rango = new double[p.size()];
-	rango[0] = p.getIndividual(0).getFitness();
+	rango[0] = p.getIndividual(0).getObjectiveEvaluation();
 	for(int i = 1; i < p.size(); i++)
-	    rango[i] = p.getIndividual(i).getFitness()+rango[i-1];
+	    rango[i] = p.getIndividual(i).getObjectiveEvaluation()+rango[i-1];
 	LinkedList<Individual<G,P>> out = new LinkedList<>();
 	for(int i =0; i < numInd; i++) {
 	    double pestana = r.nextDouble()*rango[rango.length-1];

@@ -11,7 +11,6 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
     private TerminationCondition<G,P> termination;
     private ObjectiveFunction<G,P> objFun;
     private final LinkedList<P> nodos;
-    private final DistanceTable dt;
     private final int popSize;
     private boolean cont;
 
@@ -25,7 +24,6 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 		  ObjectiveFunction<G,P> objFun,
 		  TerminationCondition<G,P> ter,
 		  LinkedList<P> nodos,
-                  DistanceTable dt,
                   int popSize){
         this.breeder = new Breeder<G,P>(cod, cor, fun);
 	this.crossoverOp = cro;
@@ -34,13 +32,18 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 	this.termination = ter;
 	this.objFun = objFun;
 	this.nodos = nodos;
-        this.dt = dt;
         this.popSize = popSize;
 	this.cont = true;
     }
 
     public Population<G,P> iteration(Population<G,P> current) {
 	Population<G,P> out = new Population<>(current.getGeneration() + 1);
+        // Evaluación función objetivo
+        if (objFun != null) {
+            current.sort();
+            objFun.evaluate(current);
+        }
+        out.addIndividual(current.getWorstIndividual());
 	while (out.size() < current.size()) {
 	    // Seleccion
 	    List<Individual<G,P>> selectionList = selectionOp.select(current);
@@ -56,11 +59,6 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 	    // Nuevos individuos
 	    for (Genotype<G> m:mutatedList)
 		out.addIndividual(breeder.newIndividual(m));
-	    // Evaluación función objetivo
-	    if (objFun != null) {
-		objFun.evaluate(out);
-		out.sort();
-	    }
 	}
 	return out;
     }
@@ -80,7 +78,7 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
             Phenotype<P> fenotipo = new Phenotype<>(ciudades.size());
             fenotipo.setAllele(0,ciudades.remove());
             for(int j = 1; j < fenotipo.size(); j++){
-                int index = r.ints(1,1,fenotipo.size()).findFirst().getAsInt();
+                int index = r.ints(1,0,ciudades.size()).findFirst().getAsInt();
                 fenotipo.setAllele(j,ciudades.remove(index));
             }
             Individual<G,P> nuevo = breeder.newIndividual(fenotipo);
@@ -99,12 +97,12 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 
     @Override
     public void run(List<Statistics> l){
-	Population<G,P> p = breeder.newRandomPopulation(popSize);
+	Population<G,P> p = randomValidP();
 	while(!termination.conditionReached(p) && cont){
 	    l.add(new Statistics(p));
 	    p = iteration(p);
 	    System.out.println("Generation: " + p.getGeneration());
-	    System.out.println(p.getBestIndividual());
+	    System.out.println(p.getWorstIndividual());
 	}
     }
 
