@@ -16,9 +16,7 @@ public class UniformMutation implements MutationOp<Boolean>{
 		out.setGene(i, !g.getGene(i).booleanValue());
 	    }
 	    else{
-
 		out.setGene(i, g.getGene(i));
-		
 	    }
 	}
 	return out;
