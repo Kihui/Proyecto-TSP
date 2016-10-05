@@ -1,4 +1,3 @@
-
 import gaframework.*;
 import java.util.*;
 import org.moeaframework.problem.tsplib.*;
@@ -13,7 +12,6 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
     private final LinkedList<P> nodos;
     private final int popSize;
     private boolean cont;
-
 
     public Simple(Codification<G,P> cod,
 		  Corrector<G> cor,
@@ -39,11 +37,17 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
     public Population<G,P> iteration(Population<G,P> current) {
 	Population<G,P> out = new Population<>(current.getGeneration() + 1);
         // Evaluación función objetivo
-        if (objFun != null) {
-            current.sort();
+        if (objFun != null) 
             objFun.evaluate(current);
-        }
-        out.addIndividual(current.getWorstIndividual());
+
+        // Para obtener al mejor individuo
+        Individual<G, P> ind = current.getIndividual(0);
+        for(int i = 0; i < current.size(); i++) {
+            if(ind.getObjectiveEvaluation() < current.getIndividual(i).getObjectiveEvaluation())
+                ind = current.getIndividual(i);
+        }      
+        out.addIndividual(ind);
+        
 	while (out.size() < current.size()) {
 	    // Seleccion
 	    List<Individual<G,P>> selectionList = selectionOp.select(current);
