@@ -34,34 +34,38 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 	this.cont = true;
     }
 
+    // Regresa el mejor individuo de la población p
+    private Individual<G,P> getMejorIndividuo(Population<G,P> p) {
+        Individual<G, P> ind = p.getIndividual(0);
+        for(int i = 0; i < p.size(); i++) {
+            if(ind.getObjectiveEvaluation() < p.getIndividual(i).getObjectiveEvaluation())
+                ind = p.getIndividual(i);
+        }
+        return ind;
+    }
+    
     public Population<G,P> iteration(Population<G,P> current) {
 	Population<G,P> out = new Population<>(current.getGeneration() + 1);
         // Evaluación función objetivo
         if (objFun != null) 
             objFun.evaluate(current);
 
-        // Para obtener al mejor individuo
-        Individual<G, P> ind = current.getIndividual(0);
-        for(int i = 0; i < current.size(); i++) {
-            if(ind.getObjectiveEvaluation() < current.getIndividual(i).getObjectiveEvaluation())
-                ind = current.getIndividual(i);
-        }      
-        out.addIndividual(ind);
+        out.addIndividual(getMejorIndividuo(current));
         
 	while (out.size() < current.size()) {
 	    // Seleccion
 	    List<Individual<G,P>> selectionList = selectionOp.select(current);
 	    // Cruza
 	    List<Genotype<G>> genotypeList = new LinkedList<>();
-	    for (Individual<G,P> s:selectionList)
+	    for (Individual<G,P> s : selectionList)
 		genotypeList.add(s.getGenotype());
 	    List<Genotype<G>> crossedList = crossoverOp.crossover(genotypeList);
 	    // Mutacion
 	    List<Genotype<G>> mutatedList = new LinkedList<>();
-	    for (Genotype<G> c:crossedList)
+	    for (Genotype<G> c : crossedList)
 		mutatedList.add(mutationOp.mutate(c));
 	    // Nuevos individuos
-	    for (Genotype<G> m:mutatedList)
+	    for (Genotype<G> m : mutatedList)
 		out.addIndividual(breeder.newIndividual(m));
 	}
 	return out;
@@ -95,7 +99,7 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 	Population<G,P> p = randomValidP();
 	while(!termination.conditionReached(p)){
 	    p = iteration(p);
-	    System.out.println(p.getBestIndividual());
+	    System.out.println(getMejorIndividuo(p));
 	}
     }
 
@@ -106,7 +110,7 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 	    l.add(new Statistics(p));
 	    p = iteration(p);
 	    System.out.println("Generation: " + p.getGeneration());
-	    System.out.println(p.getWorstIndividual());
+	    System.out.println(getMejorIndividuo(p));
 	}
     }
 
