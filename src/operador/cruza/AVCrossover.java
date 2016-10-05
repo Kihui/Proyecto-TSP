@@ -27,7 +27,7 @@ public class AVCrossover<G> implements CrossoverOp<G>{
             HashMap<G,G> faltan2 = new HashMap<>();
         
             for(int i = 0; i < p1.size(); i++) {
-                int x = (Math.random()<0.5) ? 0 : 1;
+                int x = (r.nextDouble() < 0.5) ? 0 : 1;
                 if(x == 1) {
                     out1.setGene(i, p1.getGene(i));
                     out2.setGene(i, p2.getGene(i));

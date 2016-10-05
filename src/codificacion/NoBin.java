@@ -25,7 +25,7 @@ public class NoBin implements Codification<Integer, Integer>{
     }
 
     public Genotype<Integer> newRandomGenotype(){
-	Random r = new Random();
+	Random r = new Random(4);
 	Genotype<Integer> nuevo = new Genotype<>(numInts);
 	for(int i = 0; i < nuevo.size(); i++)
 	    nuevo.setGene(i,r.ints(1,1,numInts).findFirst().getAsInt());
