@@ -22,7 +22,7 @@ public class Main{
             problema = new TSPInstance(tsp);
             String s = argumenta[0].substring(0, argumenta[0].lastIndexOf('.'));
             s += ".opt.tour";
-            File tspout = new File("../tsp/" + s);
+            File tspout = new File(s);
             if(tspout.exists()) {
                 problema.addTour(tspout);
                 for (Tour tour : problema.getTours())
@@ -41,15 +41,15 @@ public class Main{
         for(int i = 0; i < ciudades.length; i++)
             c.add(ciudades[i]);
         NoBin cod = new NoBin(problema.getDistanceTable().listNodes().length);
-        AVCrossover<Integer> opcruza = new AVCrossover<>(2,0.8);
-        AVMutation opmutacion = new AVMutation(0.01, 3);
+        AVCrossover<Integer> opcruza = new AVCrossover<>(3,0.7);
+        AVMutation opmutacion = new AVMutation(0.001, 5);
         Ruleta<Integer,Integer> ruleta = new Ruleta<>(2,2);
         AdaptacionAV fitfun = new AdaptacionAV(problema.getDistanceTable());
         ObjetivoAV objfun = new ObjetivoAV();
         NumGeneraciones ng = new NumGeneraciones(2000);
         Simple<Integer, Integer> algoSimple =
             new Simple<Integer,Integer>(cod, null, opcruza, opmutacion,
-                                        ruleta, fitfun, objfun, ng, c, 200);
+                                        ruleta, fitfun, objfun, ng, c, 300);
 	gaframeworkgui.GAGUI.setGA(algoSimple);
         gaframeworkgui.GAGUI.launch(gaframeworkgui.GAGUI.class);
     }

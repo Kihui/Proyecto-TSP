@@ -80,7 +80,7 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
 
     private Population<G,P> randomValidP(){
         Population<G,P> p = new Population<G,P>(1);
-        Random r = new Random(3);
+        Random r = new Random(4);
         for(int i = 0; i < popSize; i++){
             LinkedList<P> ciudades = clonar();
             Phenotype<P> fenotipo = new Phenotype<>(ciudades.size());

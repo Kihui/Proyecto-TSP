@@ -15,10 +15,10 @@ public class AVMutation implements MutationOp<Integer> {
 	int gsize = g.size();
         Integer[] tmp = new Integer[gsize];
         int j = 0;
-        
+
 	for (int i = 1; i < gsize; i++)
 	    if (r.nextDouble() < prob) {
-                tmp[j] = g.getGene(i);
+                tmp[i] = g.getGene(i);
                 g.setGene(i,null);
                 j++;
             }
@@ -27,26 +27,34 @@ public class AVMutation implements MutationOp<Integer> {
 	    int i = r.nextInt(gsize - 1) + 1;
 	    while(g.getGene(i) == null)
 		i = r.nextInt(gsize - 1) + 1;
-            tmp[j] = g.getGene(i);
+            tmp[i] = g.getGene(i);
             g.setGene(i,null);
 	}
 
         j = 0;
-        while(j < gsize - 1 && tmp[j + 1] != null) {
-            Integer in = tmp[j];
-            tmp[j] = tmp[j + 1];
-            tmp[j + 1] = in;
+        Integer[] tmp2 = new Integer[gsize];
+        for(int i = 0; i < gsize; i++) {
+            if(tmp[i] != null) {
+                tmp2[j] = tmp[i];
+                j++;
+            }
+        }
+        
+        j = 0;
+        while(j < gsize - 1 && tmp2[j + 1] != null) {
+            Integer in = tmp2[j];
+            tmp2[j] = tmp2[j + 1];
+            tmp2[j + 1] = in;
             j++;
         }
 
         j = 0;
         for(int i = 1; i < gsize; i++) {
             if(g.getGene(i) == null) {
-                g.setGene(i, tmp[j]);
+                g.setGene(i, tmp2[j]);
                 j++;
             }
         }
-	
 	return g;
     }
 }
