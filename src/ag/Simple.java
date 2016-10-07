@@ -47,14 +47,17 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
     public Population<G,P> iteration(Population<G,P> current) {
 	Population<G,P> out = new Population<>(current.getGeneration() + 1);
         // Evaluación función objetivo
-        if (objFun != null) 
+        if (objFun != null)
             objFun.evaluate(current);
 
         out.addIndividual(getMejorIndividuo(current));
         
 	while (out.size() < current.size()) {
 	    // Seleccion
-	    List<Individual<G,P>> selectionList = selectionOp.select(current);
+	    List<Individual<G,P>> selectionList2 = selectionOp.select(current);
+	    List<Individual<G,P>> selectionList = new ArrayList<>();
+	    selectionList.add(selectionList2.get(0).clone());
+	    selectionList.add(selectionList2.get(1).clone());
 	    // Cruza
 	    List<Genotype<G>> genotypeList = new LinkedList<>();
 	    for (Individual<G,P> s : selectionList)

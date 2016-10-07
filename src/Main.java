@@ -41,8 +41,8 @@ public class Main{
         for(int i = 0; i < ciudades.length; i++)
             c.add(ciudades[i]);
         NoBin cod = new NoBin(problema.getDistanceTable().listNodes().length);
-        AVCrossover<Integer> opcruza = new AVCrossover<>(3,0.7);
-        AVMutation opmutacion = new AVMutation(0.001, 5);
+        AVCrossover<Integer> opcruza = new AVCrossover<>(3,0.8);
+        AVMutation opmutacion = new AVMutation(0.005, 3);
         Ruleta<Integer,Integer> ruleta = new Ruleta<>(2,2);
         AdaptacionAV fitfun = new AdaptacionAV(problema.getDistanceTable());
         ObjetivoAV objfun = new ObjetivoAV();
