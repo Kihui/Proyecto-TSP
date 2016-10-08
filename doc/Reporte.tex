@@ -49,6 +49,7 @@ También, para revisar el contenido sin necesidad de descargarlo,
 se puede navegar amablemente por las líneas de código desde nuestro repositorio
 alojado en \textit{GitHub}\footnote{Enlace a repositorio del proyecto: \href{https://github.com/Kihui/Proyecto-TSP}{Proyecto-TSP}}
 
+\newpage
 \subsection*{Especificación}
 La implementación está basada en la solución al problema propuesta en el
 libro de \textit{Algoritmos Genéticos} de Kuri-Galaviz.
@@ -130,11 +131,11 @@ nuestra experiencia con la práctica anterior.
 Para el operador de cruza, implementamos el \textbf{cruzamiento uniforme ordenado}
 descrito en el libro del profesor. Con este tipo de cruzamiento nos aseguramos
 de que se generen individuos válidos al aplicar el operador sobre dos individuos
-de la población que hayan sido seleccionados para este proceso. Es decir
+de la población que hayan sido seleccionados para este proceso. Es decir,
 el nuevo individuo no tendrá repeticiones de ciudades.\par
 Para lograr esto se emplea una ``máscara'' de bits del tamaño del genotipo.
 Como en el cruzamiento uniforme, se realiza un experimento de \textit{Bernoulli}
-por cada ciudad contenida en el individuo que se reflejara en la máscara.
+por cada ciudad contenida en el individuo que se reflejará en la máscara.
 Para aquellos índices donde la máscara tenga valor de 1 se agregarán las ciudades
 correspondientes del primer padre al nuevo individuo (en consecución) y
 aquellos índices donde la máscara haya resultado con valor 0, se generará una
@@ -143,9 +144,25 @@ al nuevo individuo sobre los genes por asignar en el orden en que aparecen esas
 ciudades dado el genoma del segundo padre.\par
 Lo anterior es un mero esbozo de explicación que puede ser encontrado con más
 detalle en el libro\footnote{Kuri-Galaviz, Algoritmos Genéticos, págs. 91,92} y
-puede revisarse con detalle la implementación en el archivo de clase
+puede revisarse con detalle nuestra implementación en el archivo de clase
 \textit{AVCrossover.java}.
 \subsubsection*{Mutación}
-
-hola
+De la misma manera que con el cruzamiento, el operador mutación está planteado
+para producir un individuo ``mutado'' válido en la instancia del problema.\par
+El algoritmo utilizado para esta mutación también hace uso de una ``máscara'',
+una cadena de bits del mismo tamaño del individuo a mutar. Ésta se genera dada
+la probabilidad de mutación $p$ en la ejecución del programa. Se establecerá entonces
+un bit 1 en la máscara con probabilidad $p$ y un 0 con probabilidad $1-p$.\par
+Posteriormente, para aquellos índices en que la cadena de bits tenga asignado
+un 1, se generará una lista con las ciudades correspondientes del individuo y
+se eliminará ese gen del individuo, después
+se realizará una permutación de los elementos de esta lista de manera que
+ninguno termine en la posición en que se encontraba originalmente al crearla.\par
+Finalmente, en los genes vacíos del individuo se acomodarán las ciudades en el
+orden que aparecen en la lista temporal que se permutó. De esta forma, no es posible
+repetir ciudades, pues la mutación es básicamente una permutación de las ciudades
+en el individuo original a mutar.\par
+Para revisar el pseudo-código del algoritmo, igualmente puede ser encontrado en
+el capítulo 3 del libro y nuestra implementación en el archivo de clase
+\textit{AVMutation.java}, dentro del directorio de código fuente del proyecto.
 \end{document}
