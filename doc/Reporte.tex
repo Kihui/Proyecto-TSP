@@ -1,5 +1,4 @@
 \documentclass[12pt]{article}
-
 %Paquetes
 \usepackage[left=2cm,right=2cm,top=3cm,bottom=3cm,letterpaper]{geometry}
 \usepackage{lmodern}
@@ -13,18 +12,34 @@
 \usepackage{wasysym}
 \usepackage{listings}
 \usepackage{graphicx}
-%\usepackage{hyperref}
+\usepackage{hyperref}
 %\usepackage{graphicx}
 
 %Preambulo
 \title{Cómputo Evolutivo \\ Proyecto 1: Agente Viajero}
 \author{Andrea Itzel González Vargas \\
   Carlos Gerardo Acosta Hernández}
-\date{Facultad de Ciencias UNAM \\ Entrega: 05/09/16}
+\date{Facultad de Ciencias UNAM \\ Entrega: 07/09/16}
 \begin{document}
 \maketitle
-Noé habló y dijo:
-\begin{quote}
-  La autofecundación ocurre en la naturaleza más de lo que podríamos imaginar.
-\end{quote}
+\section{Introducción}
+Como primer proyecto de la materia implementamos un Algoritmo Genético
+para resolver instancias del
+\textit{Problema del agente viajero} (TSP, por sus siglas en inglés),
+-se consideró el caso simétrico.
+Para lograrlo, utilizamos el framework de desarrollo provisto por el
+ayudante de laboratorio, Roberto Monroy, en las prácticas de clase.\par
+Dado que el framework provee de
+una estructura modularizada para el desarrollo, el código pertinente y
+referente a los principios de un AG -como los procesos de selección,
+cruzamiento, mutación, así como los operadores que involucran- pueden
+revisarse independientemente en la carpeta de ``sources'' (src/) del proyecto.\par
+Como entrada, el programa recibe un archivo con extensión \textit{.tsp},
+que representa, con cierta sintáxis especial dentro de un archivo de texto plano,
+una instancia del problema del agente viajero.\par
+Asimismo, en el directorio del proyecto
+es posible encontrar numerosas instancias\footnote{Se pueden descargar de la página del curso \href{https://sites.google.com/site/unamfcienciascomputoevolutivo/assignments/assignment1/tsp.tar.gz}{aquí}.} del problema, entre ellas las que
+fueron empleadas para el análisis de resultados -burma14, ulysses16, ulysses22, gr17 y gr21.
+Todas ellas se pueden encontrar dentro del proyecto en el carpeta de datos (tsp/).\par
+
 \end{document}
