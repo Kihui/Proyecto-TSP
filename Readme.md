@@ -2,6 +2,7 @@
 
 ##Autores
 Andrea Itzel González Vargas
+
 Carlos Gerardo Acosta Hernández
 ###Ejecución
 El proyecto deberá ser compilado con **apache-ant**.
