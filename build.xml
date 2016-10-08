@@ -1,12 +1,5 @@
 <project name="Framework de Algoritmos Genéticos" default="jar">
 
-  <property name="build.dir" value="build"/>
-  <path id="libs">
-    <fileset dir="lib">
-      <include name="*.jar"/>
-    </fileset>    
-  </path>
-
   <target name="jar" depends="build">
     <jar jarfile="proyectoAV.jar">
       <zipfileset dir="${build.dir}" prefix=""/>
@@ -33,9 +26,12 @@
   </target>
   
   <target name="run" depends="build">
-    <java classname="Main"
-	  classpath="build"
-	  classpathref="libs"/>
+    <java classname="Main" fork="true">
+    <arg value="${file}"/>
+    	<classpath>
+		  	<pathelement path="lib/FrameworkAG.jar:lib/TSPLIB4J-0.2.jar:build"/>
+	  	</classpath>
+	  </java>
   </target>
 
 </project>
