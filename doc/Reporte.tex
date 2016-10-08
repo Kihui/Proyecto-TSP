@@ -22,13 +22,14 @@
 \date{Facultad de Ciencias UNAM \\ Entrega: 07/09/16}
 \begin{document}
 \maketitle
-\section{Introducción}
+\section*{Introducción}
+\subsection*{Panorama general}
 Como primer proyecto de la materia implementamos un Algoritmo Genético
 para resolver instancias del
 \textit{Problema del agente viajero} (TSP, por sus siglas en inglés),
 -se consideró el caso simétrico.
-Para lograrlo, utilizamos el framework de desarrollo provisto por el
-ayudante de laboratorio, Roberto Monroy, en las prácticas de clase.\par
+Para lograrlo, utilizamos el framework de desarrollo escrito en \textit{Java}
+provisto por el ayudante de laboratorio, Roberto Monroy, en las prácticas de clase.\par
 Dado que el framework provee de
 una estructura modularizada para el desarrollo, el código pertinente y
 referente a los principios de un AG -como los procesos de selección,
@@ -36,10 +37,88 @@ cruzamiento, mutación, así como los operadores que involucran- pueden
 revisarse independientemente en la carpeta de ``sources'' (src/) del proyecto.\par
 Como entrada, el programa recibe un archivo con extensión \textit{.tsp},
 que representa, con cierta sintáxis especial dentro de un archivo de texto plano,
-una instancia del problema del agente viajero.\par
-Asimismo, en el directorio del proyecto
+una instancia del problema del agente viajero.
+En el directorio del proyecto
 es posible encontrar numerosas instancias\footnote{Se pueden descargar de la página del curso \href{https://sites.google.com/site/unamfcienciascomputoevolutivo/assignments/assignment1/tsp.tar.gz}{aquí}.} del problema, entre ellas las que
 fueron empleadas para el análisis de resultados -burma14, ulysses16, ulysses22, gr17 y gr21.
-Todas ellas se pueden encontrar dentro del proyecto en el carpeta de datos (tsp/).\par
+Todas ellas se pueden revisar dentro del proyecto en el carpeta de datos (tsp/).\par
+% instrucciones y github
+De ser necesario, es posible leer instrucciones sobre la ejecución del programa
+en el \textit{Readme} incluído en la raíz del directorio del proyecto.
+También, para revisar el contenido sin necesidad de descargarlo,
+se puede navegar amablemente por las líneas de código desde nuestro repositorio
+alojado en \textit{GitHub}\footnote{Enlace a repositorio del proyecto: \href{https://github.com/Kihui/Proyecto-TSP}{Proyecto-TSP}}
+
+\subsection*{Especificación}
+La implementación está basada en la solución al problema propuesta en el
+libro de \textit{Algoritmos Genéticos} de Kuri-Galaviz.
+\subsubsection*{Codificación del problema}
+Como se comenta en el libro, hay una marcada preferencia por la utilización de
+representaciones binarias para la codificación en problemas que intentan
+resolver los algoritmos genéticos, principalmente porque se ven favorecidas
+por los resultados del \textit{Teorema del Esquema}. Sin embargo, para este
+problema en particular tiene un par de desventajas que nos llevaron a elegir
+otra codificación.\par
+Para empezar, una instancia del problema posee un número fijo
+de ciudades que tiene que recorrer el agente viajero. Es importante procurar
+representar cada una y mantener esa representación a lo
+largo del algoritmo. En caso de elegir una representación binaria,
+la codificación que se hace de cada ciudad requiere de ensambles binarios tan
+grandes como sea necesario para representar el total de ciudades.\par
+Por otro lado, ya en la ejecución del algoritmo genético, los operadores de
+cruza y mutación fácilmente pueden producir ensambles de binarios que en
+su decodificación no sean parte del dominio del problema, es decir, que si
+cambiamos uno sólo de los bits quizá deje de existir un mapeo correspondiente con las
+ciudades de la instancia. No sólo eso, también es posible que dentro de un mismo
+ensamble de bits de un \textit{genotipo} resulte una ciduad repetida, lo cuál,
+por definición no está permitido. Se vuelve entonces necesario implementar un
+corrector que entre en juego luego de la actividad de los operadores y en la
+generación de una población inicial.\par
+Es por lo anterior que nos decidimos por implementar la \textbf{codificación no binaria} descrita
+en el libro. Para esta codificación cada individuo es un recorrido por las ciudades
+y cada alelo en su fenotipo es una ciudad, representada por un entero. De esta
+manera, se asegura que los operadores sólo se manejen sin afectar la validez
+de un solo alelo como en la representación binaria, entonces sólo tenemos que
+preocuparnos por la validez del individuo.
+Además se ajusta bastante bien a las condiciones en que recibimos las instancias de TSP,
+pues cada ciudad es un nodo con un entero asociado.
+La generación de una población inicial ``aleatoria'' se hace cuidando que se
+generen individuos válidos, asignado sólo una vez cada ciudad a cada nuevo individuo
+-puede verse de hecho como múltiples permutaciones de la lista de
+ciudades en la instancia del problema.
+El resto del proceso del AG se reconsideró bajo las premisas de esta representación
+no binaria, por lo que los operadores no constituyen un riesgo para la validez
+de los códigos genéticos ni los individuos que generan y no fue necesaria la
+implementación de un corrector.
+
+\subsubsection*{Función de evaluación o adaptación}
+El problema del agente viajero es un problema de minimización,
+como no nos es posible utilizar una traducción directa de uno de maximización,
+pues al multiplicar por -1 la función de evaluación obtendremos
+costos no permitidos por la definición del problema, hicimos un reajuste a
+la evaluación de la población.
+Primero consideramos el fitness como nuestro costo de viaje, es decir, cada
+individuo representando un viaje tiene un costo asociado que es la suma de
+las distancias entre sus ciudades, considerando que es un recorrido cíclico,
+se suma también la distancia entre la última ciudad y la primera (sin olvidar
+que la distancia es simétrica en estos problemas). Definida para un genotipo como:
+\begin{equation}
+  fitness(g) = d(g[0],g[n-1]) + \sum\limits_{i=0}^{n} d(g[i],g[i+1])
+\end{equation}
+Por conveniencia de implementación bajo el framework -pues una implementación de
+la interfaz de \textit{FitnessFunction} emplea su evaluación sobre un sólo
+fenotipo-se decidió que este fuera
+el fitness, aunque se asocie más fácilmente con el concepto de \textit{función objetivo}.
+Por otro lado, la función objetivo implementada y que para la lógica de
+nuestro AG lo tratamos como función de adaptación -en el framework se aplica para una población
+y por tanto resultaba más útil puesto que el grado de adaptación de un individuo
+depende del resto de la población-, la definimos para un genotipo, dados los costos máximo
+y mínimo de la población, como:
+\begin{equation}
+  evalObj(g) = (fitness_{max} + fitness_{min})-fitness(g)
+\end{equation}
+
+\subsubsection*{Cruza}
+\subsubsection*{Mutación}
 
 \end{document}
