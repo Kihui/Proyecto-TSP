@@ -1,10 +1,8 @@
 <project name="Framework de Algoritmos Genéticos" default="jar">
 
-  <property name="build.dir" value="build"/>
-  
   <target name="jar" depends="build">
     <jar jarfile="proyectoAV.jar">
-      <zipfileset dir="${build.dir}" prefix=""/>
+      <zipfileset dir="build" prefix=""/>
       <zipgroupfileset dir="lib" includes="*.jar" excludes=""/>
       <manifest>
         <attribute name="Main-Class" value="Main"/>

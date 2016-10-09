@@ -49,6 +49,7 @@ También, para revisar el contenido sin necesidad de descargarlo,
 se puede navegar amablemente por las líneas de código desde nuestro repositorio
 alojado en \textit{GitHub}\footnote{Enlace a repositorio del proyecto: \href{https://github.com/Kihui/Proyecto-TSP}{Proyecto-TSP}}
 
+\newpage
 \subsection*{Especificación}
 La implementación está basada en la solución al problema propuesta en el
 libro de \textit{Algoritmos Genéticos} de Kuri-Galaviz.
@@ -91,7 +92,10 @@ no binaria, por lo que los operadores no constituyen un riesgo para la validez
 de los códigos genéticos ni los individuos que generan y no fue necesaria la
 implementación de un corrector.
 
-\subsubsection*{Función de evaluación o adaptación}
+\subsubsection*{Criterio de detención}
+Elegimos como criterio de detención un \textbf{número de generaciones} máximo
+definido en la construcción de una instancia de nuestro Algoritmo Genético.
+\subsubsection*{Evaluación de la población y Selección}
 El problema del agente viajero es un problema de minimización,
 como no nos es posible utilizar una traducción directa de uno de maximización,
 pues al multiplicar por -1 la función de evaluación obtendremos
@@ -107,8 +111,8 @@ que la distancia es simétrica en estos problemas). Definida para un genotipo co
 \end{equation}
 Por conveniencia de implementación bajo el framework -pues una implementación de
 la interfaz de \textit{FitnessFunction} emplea su evaluación sobre un sólo
-fenotipo-se decidió que este fuera
-el fitness, aunque se asocie más fácilmente con el concepto de \textit{función objetivo}.
+fenotipo- se decidió que ésta fuera
+el fitness, aunque se asocie más fácilmente con el concepto de \textit{función objetivo}.\par
 Por otro lado, la función objetivo implementada y que para la lógica de
 nuestro AG lo tratamos como función de adaptación -en el framework se aplica para una población
 y por tanto resultaba más útil puesto que el grado de adaptación de un individuo
@@ -117,8 +121,52 @@ y mínimo de la población, como:
 \begin{equation}
   evalObj(g) = (fitness_{max} + fitness_{min})-fitness(g)
 \end{equation}
+Señalamos que el FrameworkAG considera a los mejores y peores individuos para
+un problema de maximización, por lo que aunque se señale en la interfaz gráfica
+del programa una acotación verde para los mejores individuos en las estadísticas,
+en realidad el individuo que nos interesa a nosotros es el de acotación color
+rojo, pues es el de menor costo de viaje en la población.\par
 
+Decidimos utilizar este remapeo de la función de adaptación con el fin de
+utilizar la \textbf{selección proporcional} de ``ruleta''. La elegimos por
+nuestra experiencia con la práctica anterior.
 \subsubsection*{Cruza}
+Para el operador de cruza, implementamos el \textbf{cruzamiento uniforme ordenado}
+descrito en el libro del profesor. Con este tipo de cruzamiento nos aseguramos
+de que se generen individuos válidos al aplicar el operador sobre dos individuos
+de la población que hayan sido seleccionados para este proceso. Es decir,
+el nuevo individuo no tendrá repeticiones de ciudades.\par
+Para lograr esto se emplea una ``máscara'' de bits del tamaño del genotipo.
+Como en el cruzamiento uniforme, se realiza un experimento de \textit{Bernoulli}
+por cada ciudad contenida en el individuo que se reflejará en la máscara.
+Para aquellos índices donde la máscara tenga valor de 1 se agregarán las ciudades
+correspondientes del primer padre al nuevo individuo (en consecución) y
+aquellos índices donde la máscara haya resultado con valor 0, se generará una
+lista de ciudades correspondientes a esos ceros del primer padre y se agregarán
+al nuevo individuo sobre los genes por asignar en el orden en que aparecen esas
+ciudades dado el genoma del segundo padre.\par
+Lo anterior es un mero esbozo de explicación que puede ser encontrado con más
+detalle en el libro\footnote{Kuri-Galaviz, Algoritmos Genéticos, págs. 91,92} y
+puede revisarse con detalle nuestra implementación en el archivo de clase
+\textit{AVCrossover.java}.
 \subsubsection*{Mutación}
+De la misma manera que con el cruzamiento, el operador mutación está planteado
+para producir un individuo ``mutado'' válido en la instancia del problema.\par
+El algoritmo utilizado para esta mutación también hace uso de una ``máscara'',
+una cadena de bits del mismo tamaño del individuo a mutar. Ésta se genera dada
+la probabilidad de mutación $p$ en la ejecución del programa. Se establecerá entonces
+un bit 1 en la máscara con probabilidad $p$ y un 0 con probabilidad $1-p$.\par
+Posteriormente, para aquellos índices en que la cadena de bits tenga asignado
+un 1, se generará una lista con las ciudades correspondientes del individuo y
+se eliminará ese gen del individuo, después
+se realizará una permutación de los elementos de esta lista de manera que
+ninguno termine en la posición en que se encontraba originalmente al crearla.\par
+Finalmente, en los genes vacíos del individuo se acomodarán las ciudades en el
+orden que aparecen en la lista temporal que se permutó. De esta forma, no es posible
+repetir ciudades, pues la mutación es básicamente una permutación de las ciudades
+en el individuo original a mutar.\par
+Para revisar el pseudo-código del algoritmo, igualmente puede ser encontrado en
+el capítulo 3 del libro y nuestra implementación en el archivo de clase
+\textit{AVMutation.java}, dentro del directorio de código fuente del proyecto.
 
 \end{document}
