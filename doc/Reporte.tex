@@ -169,4 +169,70 @@ Para revisar el pseudo-código del algoritmo, igualmente puede ser encontrado en
 el capítulo 3 del libro y nuestra implementación en el archivo de clase
 \textit{AVMutation.java}, dentro del directorio de código fuente del proyecto.
 
+\subsubsection*{Experimentos}
+Se escogieron tres valores de probabilidad de mutación (P$_m$) y tres valores de
+probabilidad de cruza (P$_c$), con las cuales se formaron todas las posibles
+combinaciones de parejas dejándonos con un total de nueve parejas. \\
+
+\noindent Se usaron los archivos burma14, ulysses16, gr17, gr21 y ulysses22, cada uno se probó
+con las nueve parejas distintas y por cada una de éstas se hicieron tres experimentos
+distintos, por lo que en total se hicieron 9$\times$5$\times$3 experimentos. \\
+
+\noindent Se fijó la población en 200 individuos y se corrieron 2000 generaciones por cada
+experimento. \\
+
+\noindent Probabilidades escogidas: \\
+
+\begin{center}
+    \begin{tabular}{c | c}
+      P$_c$ & P$_m$  \\ \hline
+      0.6 & 0.001  \\ \hline
+      0.7 & 0.051  \\ \hline
+      0.8 & 0.101  \\ 
+    \end{tabular}
+\end{center}
+
+\noindent Las tres mejores parejas resultaron ser aquellas donde P$_m$ es menor, i.e.
+(representamos cada pareja como (P$_c$, P$_m$)) \\
+(0.6, 0.001), (0.7, 0.001) y (0.8, 0.001) \\
+
+\noindent En ésta gráfica se puede apreciar el exceso porcentual promedio de éstas  parejas
+en cada generación: \\
+
+\includegraphics[width=\textwidth]{datos.jpeg} \\
+
+\noindent Y a continuación se muestran éstos mismos datos para el resto de las parejas: \\
+
+\begin{center}
+  \begin{table}[!htbp]
+  \caption{Exceso porcentual promedio por parejas}
+  \begin{tabular}{| c | c | c | c | c | c | c |}
+    \hline
+      Generación & (0.6, 0.051)  & (0.6, 0.101)  & (0.7, 0.051)  & (0.7, 0.101)  & (0.8, 0.051)  & (0.8, 0.101)  \\ \hline
+      0 & 171.67 & 171.67 & 171.67 & 171.67 & 171.67 & 171.67 \\ \hline
+      100 & 28.97 & 30.63 & 29.45 & 35.49 & 34.49 & 37.13 \\ \hline
+      200 & 22.48 & 23.59 & 24.18 & 28.73 & 29.49 & 29.61 \\ \hline
+      300 & 17.89 & 20.19 & 20.98 & 23.40 & 25.97 & 27.55 \\ \hline
+      400 & 16.36 & 18.10 & 17.74 & 20.31 & 21.50 & 24.47 \\ \hline
+      500 & 13.83 & 15.22 & 16.32 & 19.00 & 20.42 & 21.57 \\ \hline
+      600 & 13.38 & 14.28 & 15.73 & 16.18 & 17.58 & 20.12 \\ \hline
+      700 & 11.91 & 12.53 & 15.43 & 15.47 & 16.89 & 18.63 \\ \hline
+      800 & 10.78 & 12.38 & 14.78 & 15.01 & 16.28 & 17.11 \\ \hline
+      900 & 10.58 & 12.34 & 13.26 & 14.40 & 15.50 & 15.09 \\ \hline
+      1000 & 10.04 & 11.36 & 12.80 & 13.50 & 14.81 & 14.41 \\ \hline
+      1100 & 9.53 & 11.31 & 12.55 & 12.80 & 14.38 & 13.88 \\ \hline
+      1200 & 9.15 & 11.13 & 12.47 & 11.84 & 13.43 & 13.00 \\ \hline
+      1300 & 8.98 & 10.94 & 11.52 & 11.72 & 13.04 & 12.82 \\ \hline
+      1400 & 8.98 & 10.78 & 11.30 & 11.05 & 12.45 & 11.97 \\ \hline
+      1500 & 8.79 & 10.51 & 10.68 & 10.77 & 12.33 & 11.54 \\ \hline
+      1600 & 8.74 & 10.36 & 10.04 & 10.75 & 11.94 & 11.07 \\ \hline
+      1700 & 8.50 & 10.31 & 10.03 & 10.46 & 11.73 & 10.85 \\ \hline
+      1800 & 8.50 & 10.31 & 9.77 & 10.10 & 11.17 & 10.22 \\ \hline
+      1900 & 8.30 & 10.29 & 9.26 & 9.83 & 11.10 & 10.03 \\ \hline
+      2000 & 8.30 & 9.97 & 9.06 & 9.41 & 10.37 & 9.84 \\ \hline
+
+    \end{tabular}
+    \end{table}
+\end{center}
+
 \end{document}
