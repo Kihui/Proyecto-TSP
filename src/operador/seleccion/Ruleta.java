@@ -23,8 +23,7 @@ public class Ruleta<G,P> implements SelectionOp<G,P> {
 	for(int i =0; i < numInd; i++) {
 	    double pestana = r.nextDouble()*rango[rango.length-1];
 	    int j = 0;
-	    /*System.out.println("hola");*/
-	    while(rango[j] <= pestana)
+	    while(j < rango.length - 1 && rango[j] <= pestana)
 		j++;
 	    out.add(p.getIndividual(j));
 	}

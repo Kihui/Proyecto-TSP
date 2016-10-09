@@ -46,6 +46,7 @@ public class Simple<G,P> implements GeneticAlgorithm<G,P> {
     
     public Population<G,P> iteration(Population<G,P> current) {
 	Population<G,P> out = new Population<>(current.getGeneration() + 1);
+
         // Evaluación función objetivo
         if (objFun != null)
             objFun.evaluate(current);
