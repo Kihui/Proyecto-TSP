@@ -194,12 +194,12 @@ experimento. \\
 
 \noindent Las tres mejores parejas resultaron ser aquellas donde P$_m$ es menor, i.e.
 (representamos cada pareja como (P$_c$, P$_m$)) \\
-(0.6, 0.001), (0.7, 0.001) y (0.8, 0.001) \\
+(0.6, 0.001), (0.7, 0.001) y (0.8, 0.001) \\ 
 
 \noindent En ésta gráfica se puede apreciar el exceso porcentual promedio de éstas  parejas
-en cada generación: \\
+en cada generación: \\ \\ \\
 
-\includegraphics[width=\textwidth]{datos.jpeg} \\
+\includegraphics[width=\textwidth]{datos.jpeg} \\ \\ \\
 
 \noindent Y a continuación se muestran éstos mismos datos para el resto de las parejas: \\
 
@@ -241,7 +241,8 @@ Partimos de una premisa de la que nos hemos convencido en clase,
 reflexionando un poco sobre nuestros pequeños conocimientos de biología,
 para decidir que  una buena opción para nuestro algoritmo genético, era que que
 la probabilidad de cruza entre individuos seleccionados fuera al menos más alta
-que un 50\% y que la mutación apenas ocurriera con menos de 1\% de probabilidad.
+que un 50\% y que la mutación apenas ocurriera con menos de 1\% de probabilidad. \\
+
 Reconocemos que la cruza nos permite obtener, buena parte de las veces, mejores
 individuos que aquellos que se ven involucrados en este proceso, por lo que un
 valor relativamente cercano a un evento seguro parecía lo indicado.
@@ -252,7 +253,8 @@ entre aquellos con mejor grado de adaptación. Sin embargo, con la idea
 soporte de que en la naturaleza (la gran optimizadora) no ocurre con tanta
 facilidad, y que hemos observado en prácticas previas que los individuos pueden
 tanto acercarse como alejarse fuertemente de la solución después de sufrir una
-mutación, nos inclinamos por dejar un valor de probabilidad bastante bajo. \par
+mutación, nos inclinamos por dejar un valor de probabilidad bastante bajo. \\
+
 Un punto importante que no debemos dejar sin reconocimiento es precisamente
 respecto al modelo de mutación que se siguió en la implementación.
 Si bien este tipo de mutación que describimos en páginas anteriores nos permitió
@@ -264,7 +266,8 @@ la probabilidad que mencionamos-, es necesario escoger un gen más para realizar
 dicha permutación, por lo que no necesariamente se respeta la tasa de mutación
 que es, de hecho, potencialmente más alta de lo que se indica.
 Decimos esto, con el afán justificar la razón detrás de valores cercanos a la
-probabilidad 0.\par
+probabilidad 0.\\
+
 Algo importante a destacar es el comportamiento en las iteraciones
 respecto a los mejores individuos de cada generación. Una de las cosas que
 percibimos en la experimentación es que efectivamente podían apreciarse
@@ -272,8 +275,10 @@ segmentos pequeños -en el código genético de los individuos impresos en panta
 que ya formaban parte de la solución, aunque posibiblemente los encontraramos
 en desorden. Podían ser dos, tres ciudades (o una longitud apreciable) que
 aparecían juntas en la solución,
-y persistían a lo largo de las generaciones. Esto fue observable gracias a que contábamos
-con el ``tour'' completo del agente viajero de las soluciones óptimas. Creemos
+y persistían a lo largo de las generaciones. \\
+
+Esto fue observable gracias a que contábamos con el ``tour'' completo del
+agente viajero de las soluciones óptimas. Creemos
 que la aparicion de estos segmentos tienen una relación directa con la hipótesis
 de los bloques constructores. Conforme las generaciones avanzaban para una
 corrida del algoritmo sobre alguna instancia del problema, podíamos ubicar
@@ -291,7 +296,7 @@ pero a la vez sutiles como
 para reacomodar esta organización y resultar en propuestas de individuos mejores.
 Es decir se podía contar en su totalidad con bloques ordenados como en la solución
 óptima, pero acomodar estos bloques en su lugar era la verdadera dificultad para nuestro
-algoritmo genético.\par
+algoritmo genético. \\
 
 Finalmente creemos que fue muy enriquecedor implementar un Algoritmo Genético para
 uno de los problemas más importantes para la teoría de complejidad y de los más
