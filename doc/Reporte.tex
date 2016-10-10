@@ -169,7 +169,7 @@ Para revisar el pseudo-código del algoritmo, igualmente puede ser encontrado en
 el capítulo 3 del libro y nuestra implementación en el archivo de clase
 \textit{AVMutation.java}, dentro del directorio de código fuente del proyecto.
 
-\subsubsection*{Experimentos}
+\section*{Experimentación}
 Se escogieron tres valores de probabilidad de mutación (P$_m$) y tres valores de
 probabilidad de cruza (P$_c$), con las cuales se formaron todas las posibles
 combinaciones de parejas dejándonos con un total de nueve parejas. \\
@@ -188,7 +188,7 @@ experimento. \\
       P$_c$ & P$_m$  \\ \hline
       0.6 & 0.001  \\ \hline
       0.7 & 0.051  \\ \hline
-      0.8 & 0.101  \\ 
+      0.8 & 0.101  \\
     \end{tabular}
 \end{center}
 
@@ -205,8 +205,8 @@ en cada generación: \\
 
 \begin{center}
   \begin{table}[!htbp]
-  \caption{Exceso porcentual promedio por parejas}
-  \begin{tabular}{| c | c | c | c | c | c | c |}
+    \caption{Exceso porcentual promedio por parejas}
+    \begin{tabular}{| c | c | c | c | c | c | c |}
     \hline
       Generación & (0.6, 0.051)  & (0.6, 0.101)  & (0.7, 0.051)  & (0.7, 0.101)  & (0.8, 0.051)  & (0.8, 0.101)  \\ \hline
       0 & 171.67 & 171.67 & 171.67 & 171.67 & 171.67 & 171.67 \\ \hline
@@ -230,9 +230,70 @@ en cada generación: \\
       1800 & 8.50 & 10.31 & 9.77 & 10.10 & 11.17 & 10.22 \\ \hline
       1900 & 8.30 & 10.29 & 9.26 & 9.83 & 11.10 & 10.03 \\ \hline
       2000 & 8.30 & 9.97 & 9.06 & 9.41 & 10.37 & 9.84 \\ \hline
-
     \end{tabular}
-    \end{table}
+  \end{table}
 \end{center}
 
+\section*{Conclusiones}
+Es fácil sospechar el porqué de nuestra elección de parejas de tasas de mutación y cruza en
+los múltiples experimentos que realizamos.
+Partimos de una premisa de la que nos hemos convencido en clase,
+reflexionando un poco sobre nuestros pequeños conocimientos de biología,
+para decidir que  una buena opción para nuestro algoritmo genético, era que que
+la probabilidad de cruza entre individuos seleccionados fuera al menos más alta
+que un 50\% y que la mutación apenas ocurriera con menos de 1\% de probabilidad.
+Reconocemos que la cruza nos permite obtener, buena parte de las veces, mejores
+individuos que aquellos que se ven involucrados en este proceso, por lo que un
+valor relativamente cercano a un evento seguro parecía lo indicado.
+Por el lado de la mutación, sabemos que este operador nos permite explorar
+nuevas áreas en el espacio de búsqueda del problema que quizá no se estén
+considerando en la construcción de los individuos y quizá no baste con la cruza
+entre aquellos con mejor grado de adaptación. Sin embargo, con la idea
+soporte de que en la naturaleza (la gran optimizadora) no ocurre con tanta
+facilidad, y que hemos observado en prácticas previas que los individuos pueden
+tanto acercarse como alejarse fuertemente de la solución después de sufrir una
+mutación, nos inclinamos por dejar un valor de probabilidad bastante bajo. \par
+Un punto importante que no debemos dejar sin reconocimiento es precisamente
+respecto al modelo de mutación que se siguió en la implementación.
+Si bien este tipo de mutación que describimos en páginas anteriores nos permitió
+generar individuos mutados válidos y nos ahorró la preocupación de implementar
+un corrector, lo cierto es que esa probabilidad asignada de mutación no se ve
+directamente reflejada en el proceso totalmente, por la situación en que si
+no se cuenta al menos con una pareja para permutar en la máscara -generada con
+la probabilidad que mencionamos-, es necesario escoger un gen más para realizar
+dicha permutación, por lo que no necesariamente se respeta la tasa de mutación
+que es, de hecho, potencialmente más alta de lo que se indica.
+Decimos esto, con el afán justificar la razón detrás de valores cercanos a la
+probabilidad 0.\par
+Algo importante a destacar es el comportamiento en las iteraciones
+respecto a los mejores individuos de cada generación. Una de las cosas que
+percibimos en la experimentación es que efectivamente podían apreciarse
+segmentos pequeños -en el código genético de los individuos impresos en pantalla-
+que ya formaban parte de la solución, aunque posibiblemente los encontraramos
+en desorden. Podían ser dos, tres ciudades (o una longitud apreciable) que
+aparecían juntas en la solución,
+y persistían a lo largo de las generaciones. Esto fue observable gracias a que contábamos
+con el ``tour'' completo del agente viajero de las soluciones óptimas. Creemos
+que la aparicion de estos segmentos tienen una relación directa con la hipótesis
+de los bloques constructores. Conforme las generaciones avanzaban para una
+corrida del algoritmo sobre alguna instancia del problema, podíamos ubicar
+mayor número y mayor tamaño de segmentos del tour solución en los fenotipos
+mejor calificados. Y, aunque en una ejecución del programa no se hallara la solución,
+en los individuos de las últimas generaciones era posible señalar el corte de
+los segmentos y en comparación con la solución encontrar cada uno en orden.
+En relación a lo anterior, observamos que en las muchas ocasiones en que
+un sólo recorrido era el mejor individuo a partir de una generación hasta la última
+-nos estancabamos en una solución-,
+es que estos segmentos a partir de cierto punto estaban bien formados y por su cercanía
+en costo de viaje con la solución, persistiría su integridad, además de que
+los operadores de cruza y mutación podían no ser lo suficientemente agresivos,
+pero a la vez sutiles como
+para reacomodar esta organización y resultar en propuestas de individuos mejores.
+Es decir se podía contar en su totalidad con bloques ordenados como en la solución
+óptima, pero acomodar estos bloques en su lugar era la verdadera dificultad para nuestro
+algoritmo genético.\par
+
+Finalmente creemos que fue muy enriquecedor implementar un Algoritmo Genético para
+uno de los problemas más importantes para la teoría de complejidad y de los más
+mencionados a lo largo de nuestra carrera.
 \end{document}
